@@ -6,7 +6,10 @@ let events = require('../data')
 router.get('/', (req, res, next) => res.send(events))
 
 router.post('/', (req, res, next ) => {
-  res.send(req.body)
+  events = {
+    ...events,
+    
+  }
 })
 
 router.get('/:id', (req, res, next) =>
