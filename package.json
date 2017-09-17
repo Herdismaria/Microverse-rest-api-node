@@ -1,0 +1,28 @@
+{
+  "name": "microverse-api",
+  "version": "1.0.0",
+  "description": "REST-api using Node.js & express",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "devstart": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Herdismaria/Microverse-rest-api-node.git"
+  },
+  "author": "microverse students",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Herdismaria/Microverse-rest-api-node/issues"
+  },
+  "homepage": "https://github.com/Herdismaria/Microverse-rest-api-node#readme",
+  "dependencies": {
+    "body-parser": "^1.18.1",
+    "express": "^4.15.4"
+  },
+  "devDependencies": {
+    "nodemon": "^1.12.1"
+  }
+}
