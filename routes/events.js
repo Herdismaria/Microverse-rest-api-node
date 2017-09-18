@@ -36,7 +36,10 @@ router.patch('/:id', (rec, res, next) => {
     return res.sendStatus(404)
   }
   /* create a new event with the changes */
-  let newEvent = Object.assign({}, event, rec.body)
+  let newEvent = {
+    ...event,
+    ...req.body
+  }
   /* update events */
   events[rec.params.id] = newEvent
   /* send respons */
