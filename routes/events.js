@@ -15,6 +15,7 @@ router.post('/', (req, res, next ) => {
     id: id
   }
   events[id] = newEvent
+  res.statusCode = 201
   res.send(newEvent)
 })
 
@@ -24,6 +25,7 @@ router.get('/:id', (req, res, next) =>
   if (!event) {
     return res.sendStatus(404)
   }
+  res.statusCode = 200
   res.send(event)
 })
 
@@ -38,7 +40,19 @@ router.patch('/:id', (rec, res, next) => {
   /* update events */
   events[rec.params.id] = newEvent
   /* send respons */
+  res.statusCode = 201
   res.send(newEvent)
+})
+
+router.delete('/:id', (rec, res, next) => {
+  let event = events[rec.params.id]
+  if (!event) {
+    return res.sendStatus(404)
+  }
+
+  delete events[rec.params.id]
+  res.statusCode = 200
+  res.send()
 })
 
 module.exports = router;
