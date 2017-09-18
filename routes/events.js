@@ -8,7 +8,6 @@ router.get('/', (req, res, next) => res.send(events))
 
 router.post('/', (req, res, next ) => {
   const id = uuidv4()
-  console.log(req)
   const newEvent = {
     name: req.body.name,
     description: req.body.description,
@@ -16,7 +15,6 @@ router.post('/', (req, res, next ) => {
     id: id
   }
   events[id] = newEvent
-
   res.send(newEvent)
 })
 
@@ -27,6 +25,20 @@ router.get('/:id', (req, res, next) =>
     return res.sendStatus(404)
   }
   res.send(event)
+})
+
+router.patch('/:id', (rec, res, next) => {
+  /* get the event to change */
+  let event = events[rec.params.id]
+  if (!event) {
+    return res.sendStatus(404)
+  }
+  /* create a new event with the changes */
+  let newEvent = Object.assign({}, event, rec.body)
+  /* update events */
+  events[rec.params.id] = newEvent
+  /* send respons */
+  res.send(newEvent)
 })
 
 module.exports = router;
