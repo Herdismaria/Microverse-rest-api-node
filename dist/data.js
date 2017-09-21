@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = events = {
+module.exports = {
   0: {
     id: 0,
     title: 'Event 0',
