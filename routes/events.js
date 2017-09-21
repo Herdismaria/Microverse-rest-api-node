@@ -44,4 +44,14 @@ router.patch('/:id', (req, res, next) => {
   res.send(modEvent)
 })
 
+router.delete('/:id', (req, res, next) => {
+    let event = events[req.params.id]
+    if(!event) {
+        return res.sendStatus(404)
+    }
+
+    delete events[req.params.id]
+    res.send()
+})
+
 module.exports = router;
