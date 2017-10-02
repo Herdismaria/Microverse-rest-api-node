@@ -55,4 +55,21 @@ describe('Events', () => {
         });
     });
   });
+
+  describe('GET single event', () => {
+      it('it should get single event', done => {
+          chai.request(server).get('/events/' + 0)
+              .end((err, res) => {
+                  res.should.have.status(200);
+                  res.body.should.be.a('object');
+                  res.body.should.have.property('title');
+                  res.body.should.have.property('description');
+                  res.body.should.have.property('date');
+                  res.body.should.have.property('id');
+                  res.body.id.should.equal(0);
+                  res.body.should.not.have.property('errors');
+                  done();
+              })
+      })
+  })
 });
