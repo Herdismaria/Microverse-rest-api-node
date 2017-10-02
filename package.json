@@ -4,8 +4,8 @@
   "description": "REST-api using Node.js & express",
   "main": "server.js",
   "scripts": {
-    "test": "mocha",
-    "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files",
+    "test": "mocha --timeout 10000",
+    "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.ps ,./npm-debug.log --copy-files",
     "start": "node server.js",
     "devstart": "npm run build && nodemon dist/server.js"
   },

@@ -11,4 +11,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/events', events);
 app.use('/', index);
 
-app.listen(3000, () => console.log('Example app listening on port 3000!'))
+if(!module.parent) {
+    app.listen(3000, () => console.log('Example app listening on port 3000!'));
+}
+
+module.exports = app; // for testing
