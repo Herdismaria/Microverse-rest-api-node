@@ -59,9 +59,10 @@ describe('Events', () => {
 
   describe('GET single event', () => {
     it('it should get single event', done => {
+        const id = 0;
       chai
         .request(server)
-        .get('/events/' + 0)
+        .get('/events/' + id)
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a('object');
@@ -69,11 +70,25 @@ describe('Events', () => {
           res.body.should.have.property('description');
           res.body.should.have.property('date');
           res.body.should.have.property('id');
-          res.body.id.should.equal(0);
+          res.body.id.should.equal(id);
+          res.body.title.should.equal(data[id].title);
+          res.body.description.should.equal(data[id].description);
+          res.body.date.should.equal(data[id].date);
           res.body.should.not.have.property('errors');
           done();
         });
     });
+
+      it('it should fail get single event cause of non-existent event', done => {
+          const nonExistentEventId = 2017;
+          chai
+              .request(server)
+              .get('/events/' + nonExistentEventId)
+              .end((err, res) => {
+                  res.should.have.status(404);
+                  done();
+              });
+      });
   });
 
   describe('/PATCH event', () => {
@@ -128,5 +143,47 @@ describe('Events', () => {
           done();
         });
     });
+
+      it('it should fail event update cause of non-existent event', done => {
+          const nonExistentEventId = 2017;
+          let event = {
+              title: 'Updated title',
+          };
+          chai
+              .request(server)
+              .patch('/events/' + nonExistentEventId)
+              .send(event)
+              .end((err, res) => {
+                  res.should.have.status(404);
+                  done();
+              });
+      });
+
   });
+
+    describe('DELETE event', () => {
+        it('it should delete single event', done => {
+            const id = 0;
+            chai
+                .request(server)
+                .delete('/events/' + id)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.empty;
+                    res.body.should.not.have.property('errors');
+                    done();
+                });
+        });
+
+        it('it should fail event delete cause of non-existent event', done => {
+            const nonExistentEventId = 2017;
+            chai
+                .request(server)
+                .delete('/events/' + nonExistentEventId)
+                .end((err, res) => {
+                    res.should.have.status(404);
+                    done();
+                });
+        });
+    });
 });
