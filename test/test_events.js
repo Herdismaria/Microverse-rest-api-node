@@ -57,9 +57,9 @@ describe('Events', () => {
     });
   });
 
-  describe('GET single event', () => {
+  describe('/GET single event', () => {
     it('it should get single event', done => {
-        const id = 0;
+      const id = 0;
       chai
         .request(server)
         .get('/events/' + id)
@@ -79,16 +79,16 @@ describe('Events', () => {
         });
     });
 
-      it('it should fail get single event cause of non-existent event', done => {
-          const nonExistentEventId = 2017;
-          chai
-              .request(server)
-              .get('/events/' + nonExistentEventId)
-              .end((err, res) => {
-                  res.should.have.status(404);
-                  done();
-              });
-      });
+    it('it should fail get single event cause of non-existent event', done => {
+      const nonExistentEventId = 2017;
+      chai
+        .request(server)
+        .get('/events/' + nonExistentEventId)
+        .end((err, res) => {
+          res.should.have.status(404);
+          done();
+        });
+    });
   });
 
   describe('/PATCH event', () => {
@@ -144,46 +144,45 @@ describe('Events', () => {
         });
     });
 
-      it('it should fail event update cause of non-existent event', done => {
-          const nonExistentEventId = 2017;
-          let event = {
-              title: 'Updated title',
-          };
-          chai
-              .request(server)
-              .patch('/events/' + nonExistentEventId)
-              .send(event)
-              .end((err, res) => {
-                  res.should.have.status(404);
-                  done();
-              });
-      });
-
-  });
-
-    describe('DELETE event', () => {
-        it('it should delete single event', done => {
-            const id = 0;
-            chai
-                .request(server)
-                .delete('/events/' + id)
-                .end((err, res) => {
-                    res.should.have.status(200);
-                    res.body.should.be.empty;
-                    res.body.should.not.have.property('errors');
-                    done();
-                });
-        });
-
-        it('it should fail event delete cause of non-existent event', done => {
-            const nonExistentEventId = 2017;
-            chai
-                .request(server)
-                .delete('/events/' + nonExistentEventId)
-                .end((err, res) => {
-                    res.should.have.status(404);
-                    done();
-                });
+    it('it should fail event update cause of non-existent event', done => {
+      const nonExistentEventId = 2017;
+      let event = {
+        title: 'Updated title',
+      };
+      chai
+        .request(server)
+        .patch('/events/' + nonExistentEventId)
+        .send(event)
+        .end((err, res) => {
+          res.should.have.status(404);
+          done();
         });
     });
+  });
+
+  describe('/DELETE event', () => {
+    it('it should delete single event', done => {
+      const id = 0;
+      chai
+        .request(server)
+        .delete('/events/' + id)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.empty;
+          res.body.should.not.have.property('errors');
+          done();
+        });
+    });
+
+    it('it should fail event delete cause of non-existent event', done => {
+      const nonExistentEventId = 2017;
+      chai
+        .request(server)
+        .delete('/events/' + nonExistentEventId)
+        .end((err, res) => {
+          res.should.have.status(404);
+          done();
+        });
+    });
+  });
 });
