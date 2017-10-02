@@ -9,6 +9,7 @@ let chai = require('chai');
 let chaiHttp = require('chai-http');
 let server = require('../server');
 let should = chai.should();
+let data = require('../data');
 
 chai.use(chaiHttp);
 //Our parent block
@@ -57,19 +58,75 @@ describe('Events', () => {
   });
 
   describe('GET single event', () => {
-      it('it should get single event', done => {
-          chai.request(server).get('/events/' + 0)
-              .end((err, res) => {
-                  res.should.have.status(200);
-                  res.body.should.be.a('object');
-                  res.body.should.have.property('title');
-                  res.body.should.have.property('description');
-                  res.body.should.have.property('date');
-                  res.body.should.have.property('id');
-                  res.body.id.should.equal(0);
-                  res.body.should.not.have.property('errors');
-                  done();
-              })
-      })
-  })
+    it('it should get single event', done => {
+      chai
+        .request(server)
+        .get('/events/' + 0)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+          res.body.should.have.property('title');
+          res.body.should.have.property('description');
+          res.body.should.have.property('date');
+          res.body.should.have.property('id');
+          res.body.id.should.equal(0);
+          res.body.should.not.have.property('errors');
+          done();
+        });
+    });
+  });
+
+  describe('/PATCH event', () => {
+    it('it should update the whole event', done => {
+      let event = {
+        title: 'Updated title',
+        description: 'Updated description',
+        date: '12.12.2013',
+      };
+
+      chai
+        .request(server)
+        .patch('/events/' + 0)
+        .send(event)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+          res.body.should.have.property('title');
+          res.body.should.have.property('description');
+          res.body.should.have.property('date');
+          res.body.should.have.property('id');
+          res.body.id.should.equal(0);
+          res.body.title.should.equal('Updated title');
+          res.body.description.should.equal('Updated description');
+          res.body.date.should.equal('12.12.2013');
+          res.body.should.not.have.property('errors');
+          done();
+        });
+    });
+
+    it('it should update the title of the event', done => {
+      const id = 0;
+      let event = {
+        title: 'Updated title',
+      };
+
+      chai
+        .request(server)
+        .patch('/events/' + id)
+        .send(event)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+          res.body.should.have.property('title');
+          res.body.should.have.property('description');
+          res.body.should.have.property('date');
+          res.body.should.have.property('id');
+          res.body.id.should.equal(0);
+          res.body.title.should.equal('Updated title');
+          res.body.description.should.equal(data[id].description);
+          res.body.should.not.have.property('errors');
+          done();
+        });
+    });
+  });
 });
