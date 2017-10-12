@@ -1,10 +1,18 @@
 let express = require('express');
 let router = express.Router();
 const uuidv4 = require('uuid/v4');
-let events = require('../data');
+var db = require('../db');
 
 /* GET */
-router.get('/', (req, res, next) => res.send(events));
+router.get('/', (req, res, next) => {
+  var collection = db.dbRef().collection('events');
+
+  collection.find().toArray(function(err, docs) {
+    console.log('err', err);
+    console.log('docs', docs);
+    res.send(docs);
+  });
+});
 
 router.get('/:id', (req, res, next) => {
   let event = events[req.params.id];
