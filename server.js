@@ -1,7 +1,7 @@
 const express = require('express');
 var bodyParser = require('body-parser');
-var index = require('./routes/index');
-var events = require('./routes/events');
+var index = require('./controllers/index');
+var events = require('./controllers/events');
 var db = require('./db');
 const app = express();
 

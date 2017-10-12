@@ -22,7 +22,7 @@ exports.connectToDb = function(url, done) {
   });
 };
 
-exports.dbRef = function() {
+exports.get = function() {
   return state.db;
 };
 
@@ -34,22 +34,4 @@ exports.close = function(done) {
       done(err);
     });
   }
-};
-
-exports.insertDocument = function(db) {
-  const eventsRef = db.collection('events');
-  eventsRef.insertOne({
-    title: 'Test event',
-    description: 'Test event description',
-    date: Date.now(),
-  });
-};
-
-exports.getDocuments = function() {
-  const eventsRef = state.db.collection('events');
-  eventsRef.find({}).toArray(function(err, docs) {
-    assert.equal(err, null);
-    console.log('Found the following records');
-    console.log(docs);
-  });
 };

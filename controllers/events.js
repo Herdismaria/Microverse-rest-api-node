@@ -1,15 +1,11 @@
 let express = require('express');
 let router = express.Router();
 const uuidv4 = require('uuid/v4');
-var db = require('../db');
+var Events = require('../models/events');
 
 /* GET */
 router.get('/', (req, res, next) => {
-  var collection = db.dbRef().collection('events');
-
-  collection.find().toArray(function(err, docs) {
-    console.log('err', err);
-    console.log('docs', docs);
+  Events.getAllEvents(function(err, docs) {
     res.send(docs);
   });
 });
@@ -23,16 +19,13 @@ router.get('/:id', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
-  const id = uuidv4();
-  let newEvent = {
-    id,
-    title: req.body.title,
-    description: req.body.description,
-    date: req.body.date,
-  };
+  const title = req.body.title;
+  const description = req.body.description;
+  const date = req.body.date;
 
-  events[id] = newEvent;
-  res.status(201).send(newEvent);
+  Events.create(title, description, date, function(err, event) {
+    res.status(201).send(event);
+  });
 });
 
 router.patch('/:id', (req, res, next) => {
