@@ -14,11 +14,22 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/events', events);
 app.use('/', index);
 
+const insertDocument = function(db) {
+    const eventsRef = db.collection('events');
+    eventsRef.insertOne(
+        {title: 'Test event', description: 'Test event description', date: Date.now()}
+        , function (err, result) {
+            assert.equal(err, null);
+            assert.equal(1, result.result.n);
+            console.log("Inserted 1 document into the collection 'events'");
+        });
+};
+
 // Use connect method to connect to the server
 MongoClient.connect(url, function(err, db) {
   assert.equal(null, err);
   console.log('Connected successfully to server');
-  const eventsRef = db.collection('events');
+  insertDocument(db);
   db.close();
 });
 
