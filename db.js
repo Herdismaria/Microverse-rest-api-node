@@ -2,6 +2,8 @@ var MongoClient = require('mongodb').MongoClient,
   assert = require('assert');
 // Connection URL
 
+var mongoose = require('mongoose');
+
 var state = {
   db: null,
 };
@@ -11,7 +13,7 @@ exports.connectToDb = function(url, done) {
     return done();
   }
 
-  MongoClient.connect(url, function(err, db) {
+  mongoose.createConnection(url, function(err, db) {
     if (err) {
       return done(err);
     }
