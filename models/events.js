@@ -1,4 +1,5 @@
 var db = require('../db');
+var ObjectID = require('mongodb').ObjectID;
 
 exports.create = function(title, description, date, callback) {
   const ref = db.get().collection('events');
@@ -22,8 +23,16 @@ exports.getAllEvents = function(callback) {
 
 exports.getOneEvent = function(id, callback) {
   const ref = db.get().collection('events');
-
-  ref.find({ _id: id }).toArray(function(err, doc) {
+  ref.find({ _id: ObjectID(id) }).toArray(function(err, doc) {
     callback(err, doc);
   });
+};
+
+exports.updateEvent = function(id, params, callback) {
+    console.log(params);
+    const ref = db.get().collection('events');
+    ref.updateOne(
+        { _id: ObjectID(id)},
+        { $set: { params } }
+        )
 };
