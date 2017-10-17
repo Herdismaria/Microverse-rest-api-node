@@ -11,11 +11,11 @@ router.get('/', (req, res, next) => {
 });
 
 router.get('/:id', (req, res, next) => {
-  let event = events[req.params.id];
-  if (!event) {
-    return res.sendStatus(404);
-  }
-  res.send(event);
+  let id = req.params.id;
+  Events.getOneEvent(id, function(err, doc) {
+    console.log('error', err);
+    res.send(event);
+  });
 });
 
 router.post('/', (req, res, next) => {

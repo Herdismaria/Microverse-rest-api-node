@@ -19,3 +19,11 @@ exports.getAllEvents = function(callback) {
     callback(err, docs);
   });
 };
+
+exports.getOneEvent = function(id, callback) {
+  const ref = db.get().collection('events');
+
+  ref.find({ _id: id }).toArray(function(err, doc) {
+    callback(err, doc);
+  });
+};
