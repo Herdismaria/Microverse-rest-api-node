@@ -29,10 +29,12 @@ exports.getOneEvent = function(id, callback) {
 };
 
 exports.updateEvent = function(id, params, callback) {
-    console.log(params);
-    const ref = db.get().collection('events');
-    ref.updateOne(
-        { _id: ObjectID(id)},
-        { $set: { params } }
-        )
+  const ref = db.get().collection('events');
+  ref
+    .findOneAndUpdate(
+      { _id: ObjectID(id) },
+      { $set: params },
+      { returnOriginal: false },
+    )
+    .then(doc => callback(doc.value));
 };

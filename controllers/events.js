@@ -29,24 +29,10 @@ router.post('/', (req, res, next) => {
 });
 
 router.patch('/:id', (req, res, next) => {
-
-    let id = req.params.id;
-    Events.updateEvent(id, req.body, function(err, event) {
-        console.log('error', err);
-        res.send(event);
-    });
-
-  // let modEvent = {
-  //   id: event.id,
-  //   title: req.body.title ? req.body.title : event.title,
-  //   description: req.body.description
-  //     ? req.body.description
-  //     : event.description,
-  //   date: req.body.date ? req.body.date : event.date,
-  // };
-  //
-  // events[req.params.id] = modEvent;
-  // res.send(modEvent);
+  let id = req.params.id;
+  Events.updateEvent(id, req.body, function(event) {
+    res.send(event);
+  });
 });
 
 router.delete('/:id', (req, res, next) => {
