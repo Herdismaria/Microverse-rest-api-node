@@ -25,17 +25,17 @@ router.post('/', (req, res, next) => {
 
 router.patch('/:id', (req, res, next) => {
   let id = req.params.id;
-  Events.updateEvent(id, req.body, function(event) {
+  Events.updateEvent(id, req.body, function(err, event) {
     res.send(event);
   });
 });
 
 router.delete('/:id', (req, res, next) => {
-    let id = req.params.id;
-    Events.deleteEvent(id, function(err, result) {
-        console.log('error', err);
-        res.send();
-    });
+  let id = req.params.id;
+  Events.deleteEvent(id, function(err, result) {
+    console.log('error', err);
+    res.send();
+  });
 });
 
 module.exports = router;

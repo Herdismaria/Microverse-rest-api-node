@@ -1,21 +1,20 @@
-var db = require('../db');
 var ObjectID = require('mongodb').ObjectID;
 var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
 
 var EventSchema = new Schema({
-    title: {
-        type: String,
-        required: 'Kindly enter the title of the event'
-    },
-    description: {
-        type: String
-    },
-    date: {
-        type: Date,
-        default: Date.now
-    }
+  title: {
+    type: String,
+    required: 'Kindly enter the title of the event',
+  },
+  description: {
+    type: String,
+  },
+  date: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 const Event = mongoose.model('Event', EventSchema);
@@ -23,41 +22,35 @@ const Event = mongoose.model('Event', EventSchema);
 exports.create = function(params, callback) {
   let new_event = new Event(params);
   new_event.save(function(err, event) {
+    callback(err, event);
+  });
+};
+
+exports.getAllEvents = function(callback) {
+  Event.find(function(err, docs) {
+    callback(err, docs);
+  });
+};
+
+exports.getOneEvent = function(id, callback) {
+  Event.findById(id, function(err, doc) {
+    callback(err, doc);
+  });
+};
+
+exports.updateEvent = function(id, params, callback) {
+  Event.findByIdAndUpdate(id, { $set: params }, { new: true }, function(
+    err,
+    event
+  ) {
     console.log(err);
     console.log(event);
     callback(err, event);
   });
 };
 
-exports.getAllEvents = function(callback) {
-  const ref = db.get().collection('events');
-
-  ref.find({}).toArray(function(err, docs) {
-    callback(err, docs);
+exports.deleteEvent = function(id, callback) {
+  Event.findByIdAndRemove(id, function(err, result) {
+    callback(err, result);
   });
-};
-
-exports.getOneEvent = function(id, callback) {
-  const ref = db.get().collection('events');
-  ref.find({ _id: ObjectID(id) }).toArray(function(err, doc) {
-    callback(err, doc);
-  });
-};
-
-exports.updateEvent = function(id, params, callback) {
-  const ref = db.get().collection('events');
-  ref
-    .findOneAndUpdate(
-      { _id: ObjectID(id) },
-      { $set: params },
-      { returnOriginal: false },
-    )
-    .then(doc => callback(doc.value));
-};
-
-exports.deleteEvent = function (id, callback) {
-    const ref = db.get().collection('events');
-    ref.deleteOne({_id: ObjectID(id)}, function(err, result) {
-      callback(err, result)
-    })
 };
