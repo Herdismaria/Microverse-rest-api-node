@@ -43,8 +43,6 @@ exports.updateEvent = function(id, params, callback) {
     err,
     event
   ) {
-    console.log(err);
-    console.log(event);
     callback(err, event);
   });
 };

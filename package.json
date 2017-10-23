@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha --timeout 10000",
     "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.ps ,./npm-debug.log --copy-files",
-    "start": "node server.js",
+    "start": "NODE_ENV=dev && node server.js",
     "devstart": "npm run build && nodemon dist/server.js"
   },
   "repository": {
@@ -21,6 +21,7 @@
   "homepage": "https://github.com/Herdismaria/Microverse-rest-api-node#readme",
   "dependencies": {
     "body-parser": "^1.18.1",
+    "config": "^1.27.0",
     "express": "^4.15.4",
     "mongodb": "^2.2.31",
     "mongoose": "^4.12.3",

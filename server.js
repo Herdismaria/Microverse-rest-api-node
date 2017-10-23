@@ -5,14 +5,14 @@ var events = require('./controllers/events');
 const app = express();
 var mongoose = require('mongoose');
 
-var url = 'mongodb://localhost:27017/microverse';
+let config = require('config');//'mongodb://localhost:27017/microverse';
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/events', events);
 app.use('/', index);
 
-mongoose.connect(url);
+mongoose.connect(config.DBHost);
 app.listen(3000, () => {
   console.log('Example app listening on port 3000!');
 });
