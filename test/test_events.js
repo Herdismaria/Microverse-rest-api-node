@@ -214,4 +214,31 @@ describe('Events', () => {
         });
     });
   });
+
+  // Search events by title
+  describe('/GET events by title', () => {
+        it('it should search all the events by title', done => {
+            let event = new Event({
+                title: 'Search event',
+                description: 'Search event description',
+                date: new Date('2016-12-12')
+            });
+            event.save((err, event) => {
+                chai
+                    .request(server)
+                    .get('/events/search?title=' + event.title)
+                    .end((err, res) => {
+                        res.should.have.status(200);
+                        res.body.should.be.a('array');
+                        res.body[0]._id.should.equal(event._id.toString());
+                        res.body[0].title.should.equal(event.title);
+                        res.body[0].description.should.equal(event.description);
+                        res.body[0].date.should.equal(event.date.toISOString());
+                        res.body.should.not.have.property('errors');
+                        done();
+                    });
+            });
+
+        });
+    });
 });
