@@ -52,3 +52,10 @@ exports.deleteEvent = function(id, callback) {
     callback(err, result);
   });
 };
+
+exports.findByTitle = function(title, callback) {
+  Event.find({ "title": title }, (err, docs) => {
+    console.log('inside find by title');
+    callback(err, docs);
+  });
+};

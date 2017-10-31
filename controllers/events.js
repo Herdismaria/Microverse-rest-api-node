@@ -9,12 +9,20 @@ router.get('/', (req, res, next) => {
   });
 });
 
+router.get('/search', (req, res, next) => {
+  let title = req.params.title;
+  console.log(title);
+  Events.findByTitle(title, function(err, docs) {
+    res.send(docs);
+  });
+});
+
 router.get('/:id', (req, res, next) => {
   let id = req.params.id;
   Events.getOneEvent(id, function(err, event) {
     if (!event) {
       res.statusCode = 404;
-      res.send(err)
+      res.send(err);
     }
     res.send(event);
   });
@@ -29,19 +37,22 @@ router.post('/', (req, res, next) => {
 router.patch('/:id', (req, res, next) => {
   let id = req.params.id;
   Events.updateEvent(id, req.body, function(err, event) {
-      if (!event) {
-          res.statusCode = 404;
-          res.send(err)
-      } else {
-          res.send(event);
-      }
+    if (!event) {
+      res.statusCode = 404;
+      res.send(err);
+    } else {
+      res.send(event);
+    }
   });
 });
 
 router.delete('/:id', (req, res, next) => {
   let id = req.params.id;
   Events.deleteEvent(id, function(err, result) {
-    console.log('error', err);
+    if (!result) {
+      res.statusCode = 404;
+      res.send(err);
+    }
     res.send();
   });
 });
