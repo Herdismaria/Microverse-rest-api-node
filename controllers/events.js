@@ -2,23 +2,25 @@ let express = require('express');
 let router = express.Router();
 var Events = require('../models/events');
 
-/* GET */
+/* get all events */
 router.get('/', (req, res, next) => {
-  Events.getAllEvents(function(err, docs) {
+  Events.getAllEvents((err, docs) => {
     res.send(docs);
   });
 });
 
+/* search events */
 router.get('/search', (req, res, next) => {
   let title = req.query.title;
-  Events.findByTitle(title, function(err, docs) {
+  Events.findByTitle(title, (err, docs) => {
     res.send(docs);
   });
 });
 
+/* get one specific event */
 router.get('/:id', (req, res, next) => {
   let id = req.params.id;
-  Events.getOneEvent(id, function(err, event) {
+  Events.getOneEvent(id, (err, event) => {
     if (!event) {
       res.statusCode = 404;
       res.send(err);
@@ -27,15 +29,17 @@ router.get('/:id', (req, res, next) => {
   });
 });
 
+/* create an event */
 router.post('/', (req, res, next) => {
-  Events.create(req.body, function(err, event) {
+  Events.create(req.body, (err, event) => {
     res.status(201).send(event);
   });
 });
 
+/* update an event */
 router.patch('/:id', (req, res, next) => {
   let id = req.params.id;
-  Events.updateEvent(id, req.body, function(err, event) {
+  Events.updateEvent(id, req.body, (err, event) => {
     if (!event) {
       res.statusCode = 404;
       res.send(err);
@@ -45,9 +49,10 @@ router.patch('/:id', (req, res, next) => {
   });
 });
 
+/* delete one event */
 router.delete('/:id', (req, res, next) => {
   let id = req.params.id;
-  Events.deleteEvent(id, function(err, result) {
+  Events.deleteEvent(id, (err, result) => {
     if (!result) {
       res.statusCode = 404;
       res.send(err);
