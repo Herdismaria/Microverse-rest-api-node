@@ -10,8 +10,7 @@ router.get('/', (req, res, next) => {
 });
 
 router.get('/search', (req, res, next) => {
-  let title = req.params.title;
-  console.log(title);
+  let title = req.query.title;
   Events.findByTitle(title, function(err, docs) {
     res.send(docs);
   });
