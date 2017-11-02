@@ -26,6 +26,7 @@ var UserSchema = new Schema({
   }
 });
 
+/* Hash password before saving user to database */
 UserSchema.pre('save', function(next) {
     var user = this;
 
@@ -47,6 +48,7 @@ UserSchema.pre('save', function(next) {
     });
 });
 
+/* Function to compare the hashed password and authenticate user */
 UserSchema.methods.comparePassword = function(candidatePassword, cb) {
     bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
         if (err) return cb(err);
@@ -56,10 +58,12 @@ UserSchema.methods.comparePassword = function(candidatePassword, cb) {
 
 const User = mongoose.model('User', UserSchema);
 
+
 exports.getUsers = function(callback) {
   callback(null, "Get users called");
 };
 
+/* Create a new user in the database */
 exports.create = function(params, callback) {
   let new_user = new User(params);
   new_user.save(function(err, event) {
