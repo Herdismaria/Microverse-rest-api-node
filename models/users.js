@@ -56,13 +56,9 @@ UserSchema.methods.comparePassword = function(candidatePassword, cb) {
 
 const User = mongoose.model('User', UserSchema);
 
-exports.getUsers = function(callback) {
-  callback(null, "Get users called");
-};
-
 exports.create = function(params, callback) {
   let new_user = new User(params);
-  new_user.save(function(err, event) {
-    callback(err, event);
+  new_user.save(function(err, user) {
+    callback(err, user);
   });
 };
