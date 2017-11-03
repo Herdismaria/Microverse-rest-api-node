@@ -12,14 +12,19 @@ router.post('/', (req, res, next) => {
   Users.create(req.body, (err, user) => {
     if(err) {
       if (err.code === 11000) {
-        res.status(409).send({'errors': {'message': 'The username or email already exists'}});
+        err.status = 409;
+        err.message = 'The username or email already exists';
+        next(err);
       }
       if (err.name === 'ValidationError') {
-        res.status(400).send(err)
+        err.status = 400;
+        next(err);
       }
-      res.status(500).send(err);
+      next(err);
     }
-    res.status(201).send(user);
+    else {
+      res.status(201).send(user);
+    }
   });
 });
 

@@ -70,9 +70,9 @@ describe('Users', () => {
                     .post('/users')
                     .send(user_params)
                     .end((err, res) => {
+                        res.should.have.property('error');
                         res.should.have.status(409);
-                        res.body.should.have.property('errors');
-                        res.body.errors.message.should.equal('The username or email already exists');
+                        res.error.text.should.equal('The username or email already exists');
                         done();
                     });
             });
@@ -90,14 +90,8 @@ describe('Users', () => {
                     .send(user)
                     .end((err, res) => {
                         res.should.have.status(400);
-                        res.body.should.have.property('errors');
-                        res.body.errors.should.not.have.property('username');
-                        res.body.errors.should.have.property('password');
-                        res.body.errors.should.have.property('email');
-                        res.body.errors.should.have.property('fullname');
-                        res.body.errors.password.message.should.equal('Kindly enter your password');
-                        res.body.errors.email.message.should.equal('Kindly enter your email');
-                        res.body.errors.fullname.message.should.equal('Kindly enter your fullname');
+                        res.should.have.property('error');
+                        res.error.text.should.equal('User validation failed: fullname: Kindly enter your fullname, email: Kindly enter your email, password: Kindly enter your password');
                         done();
                     });
         });

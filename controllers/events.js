@@ -5,7 +5,13 @@ var Events = require('../models/events');
 /* get all events */
 router.get('/', (req, res, next) => {
   Events.getAllEvents((err, docs) => {
-    res.send(docs);
+    if(err) {
+      next(err);
+    } else if (!docs) {
+      next();
+    } else {
+      res.send(docs);
+    }
   });
 });
 
@@ -13,7 +19,14 @@ router.get('/', (req, res, next) => {
 router.get('/search', (req, res, next) => {
   let title = req.query.title;
   Events.findByTitle(title, (err, docs) => {
-    res.send(docs);
+    if(err) {
+      err.status = 404;
+      next(err);
+    } else if(!docs) {
+      next();
+    } else {
+      res.send(docs);
+    }
   });
 });
 
@@ -21,18 +34,26 @@ router.get('/search', (req, res, next) => {
 router.get('/:id', (req, res, next) => {
   let id = req.params.id;
   Events.getOneEvent(id, (err, event) => {
-    if (!event) {
-      res.statusCode = 404;
-      res.send(err);
+    if(err) {
+      next(err);
+    } else if (!event) {
+      next();
+    } else {
+      res.send(event);
     }
-    res.send(event);
   });
 });
 
 /* create an event */
 router.post('/', (req, res, next) => {
   Events.create(req.body, (err, event) => {
-    res.status(201).send(event);
+    if(err) {
+      next(err);
+    } else if(!event) {
+      next();
+    } else {
+      res.status(201).send(event);
+    }
   });
 });
 
@@ -40,9 +61,10 @@ router.post('/', (req, res, next) => {
 router.patch('/:id', (req, res, next) => {
   let id = req.params.id;
   Events.updateEvent(id, req.body, (err, event) => {
-    if (!event) {
-      res.statusCode = 404;
-      res.send(err);
+    if(err) {
+      next(err);
+    } else if (!event) {
+      next();
     } else {
       res.send(event);
     }
@@ -53,11 +75,13 @@ router.patch('/:id', (req, res, next) => {
 router.delete('/:id', (req, res, next) => {
   let id = req.params.id;
   Events.deleteEvent(id, (err, result) => {
-    if (!result) {
-      res.statusCode = 404;
-      res.send(err);
+    if(err) {
+      next(err);
+    } else if (!result) {
+      next();
+    } else {
+      res.send();
     }
-    res.send();
   });
 });
 
