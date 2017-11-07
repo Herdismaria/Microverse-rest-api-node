@@ -28,14 +28,13 @@ passport.use(
       if (!user) {
         return done(null, false);
       }
+      /* compare hashed password */
       let passwordCheck = async () => {
         return await user.comparePassword(password);
       };
       if (!passwordCheck) {
-        console.log('Did not match');
         return done(null, false);
       }
-      console.log('Did match');
       return done(null, user);
     });
   })
@@ -45,28 +44,6 @@ passport.use(
 app.use(middleware.notFound);
 app.use(middleware.errorHandler);
 
-<<<<<<< HEAD
-=======
-passport.use(new BasicStrategy(
-    function(username, password, done) {
-        User.findOne({ username: username }, function (err, user) {
-            if (err) {return done(err); }
-            if (!user) { return done(null, false); }
-            bcrypt.compare(password, user.password, function(err, res) {
-                if (err) {
-                    return done(err);
-                }
-                if (!res) {
-                    return done(null, false);
-                }
-            });
-            // if (!user.validPassword(password)) { return done(null, false); }
-            return done(null, user);
-        });
-    }
-));
-
->>>>>>> 76ef7e43f28d673ca0677dda05a346098c0055f3
 mongoose.connect(config.DBHost);
 app.listen(3000, () => {
   console.log('Example app listening on port 3000!');
