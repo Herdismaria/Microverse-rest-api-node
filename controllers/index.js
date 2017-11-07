@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var passport = require('passport');
+let passport = require('passport');
 
 /* GET home page. */
 router.get('/', (req, res, next) => res.send('Hello World!'));

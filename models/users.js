@@ -56,6 +56,15 @@ UserSchema.methods.comparePassword = function(candidatePassword) {
     throw err;
   }
 };
+UserSchema.methods.validPassword = function(candidatePassword) {
+    bcrypt.compare(candidatePassword, this.password, function(err, res) {
+        if (err) {
+            return err
+        }
+        console.log('Passowrds match', res);
+        return res
+    });
+};
 
 const User = mongoose.model('User', UserSchema);
 
