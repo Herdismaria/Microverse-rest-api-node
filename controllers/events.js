@@ -19,7 +19,9 @@ router.get('/',
 });
 
 /* search events */
-router.get('/search', (req, res, next) => {
+router.get('/search',
+    passport.authenticate('basic', { session: false }),
+    (req, res, next) => {
   let title = req.query.title;
   Events.findByTitle(title, (err, docs) => {
     if(err) {
@@ -34,7 +36,9 @@ router.get('/search', (req, res, next) => {
 });
 
 /* get one specific event */
-router.get('/:id', (req, res, next) => {
+router.get('/:id',
+    passport.authenticate('basic', { session: false }),
+    (req, res, next) => {
   let id = req.params.id;
   Events.getOneEvent(id, (err, event) => {
     if(err) {
@@ -48,7 +52,9 @@ router.get('/:id', (req, res, next) => {
 });
 
 /* create an event */
-router.post('/', (req, res, next) => {
+router.post('/',
+    passport.authenticate('basic', { session: false }),
+    (req, res, next) => {
   Events.create(req.body, (err, event) => {
     if(err) {
       next(err);
@@ -61,7 +67,9 @@ router.post('/', (req, res, next) => {
 });
 
 /* update an event */
-router.patch('/:id', (req, res, next) => {
+router.patch('/:id',
+    passport.authenticate('basic', { session: false }),
+    (req, res, next) => {
   let id = req.params.id;
   Events.updateEvent(id, req.body, (err, event) => {
     if(err) {
@@ -75,7 +83,9 @@ router.patch('/:id', (req, res, next) => {
 });
 
 /* delete one event */
-router.delete('/:id', (req, res, next) => {
+router.delete('/:id',
+    passport.authenticate('basic', { session: false }),
+    (req, res, next) => {
   let id = req.params.id;
   Events.deleteEvent(id, (err, result) => {
     if(err) {
