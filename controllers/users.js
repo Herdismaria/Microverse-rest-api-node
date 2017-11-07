@@ -1,8 +1,11 @@
 let express = require('express');
 let router = express.Router();
 var Users = require('../models/users');
+let passport = require('passport');
 
-router.get('/', (req, res, next) => {
+router.get('/',
+    passport.authenticate('basic', { session: false }),
+    (req, res, next) => {
   Users.getUsers((err, users) => {
     res.send(users);
   });

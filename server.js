@@ -9,6 +9,7 @@ let middleware = require('./middleware/middleware');
 let passport = require('passport');
 let BasicStrategy = require('passport-http').BasicStrategy;
 let User = mongoose.model('User');
+let bcrypt = require('bcrypt');
 
 
 let config = require('config');//'mongodb://localhost:27017/microverse';
@@ -28,7 +29,15 @@ passport.use(new BasicStrategy(
         User.findOne({ username: username }, function (err, user) {
             if (err) {return done(err); }
             if (!user) { return done(null, false); }
-            if (!user.validPassword(password)) { return done(null, false); }
+            bcrypt.compare(password, user.password, function(err, res) {
+                if (err) {
+                    return done(err);
+                }
+                if (!res) {
+                    return done(null, false);
+                }
+            });
+            // if (!user.validPassword(password)) { return done(null, false); }
             return done(null, user);
         });
     }
