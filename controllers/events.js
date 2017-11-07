@@ -1,10 +1,13 @@
 let express = require('express');
 let router = express.Router();
 var Events = require('../models/events');
+let passport = require('passport');
 
 /* get all events */
-router.get('/', (req, res, next) => {
-  Events.getAllEvents((err, docs) => {
+router.get('/',
+    passport.authenticate('basic', { session: false }),
+    (req, res, next) => {
+    Events.getAllEvents((err, docs) => {
     if(err) {
       next(err);
     } else if (!docs) {
