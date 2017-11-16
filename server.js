@@ -26,14 +26,14 @@ passport.use(
         return done(err);
       }
       if (!user) {
-        return done(null, false);
+        return done(null, false, { message: 'Incorrect username.' });
       }
       /* compare hashed password */
       let passwordCheck = async () => {
         return await user.comparePassword(password);
       };
       if (!passwordCheck) {
-        return done(null, false);
+        return done(null, false, { message: 'Incorrect password.' });
       }
       return done(null, user);
     });
